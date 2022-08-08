@@ -156,6 +156,15 @@ class TVCardServices extends LitElement {
             media_content_type: "send_key",
         }, { entity_id: entity_id });
     }
+    
+    sendKeySony(key) {
+        let entity_id = this._config.entity;
+
+        this._hass.callService("remote", "send_command", {
+            data:
+              command: key,
+        }, { entity_id: entity_id });
+    }    
 
     changeSource(source) {
         let entity_id = this._config.entity;
@@ -232,12 +241,12 @@ class TVCardServices extends LitElement {
             // sliding horizontally
             let key = diffX > 0 ? "KEY_LEFT" : "KEY_RIGHT";
             this.holdaction = key;
-            this.sendKey(key);
+            this.sendKeySony(key);
         } else {
             // sliding vertically
             let key = diffY > 0 ? "KEY_UP" : "KEY_DOWN";
             this.holdaction = key;
-            this.sendKey(key);
+            this.sendKeySony(key);
         }
 
         if (this._config.enable_button_feedback === undefined || this._config.enable_button_feedback) fireEvent(window, "haptic", "selection");
